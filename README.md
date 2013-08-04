@@ -1,4 +1,4 @@
-# Cordova Push Notifications Plugin for Android and iOS
+f# Cordova Push Notifications Plugin for Android and iOS
 
 ---
 
@@ -122,7 +122,7 @@ For additional info, take a look at the [Plugman Documentation](https://github.c
 Installation with the [Cordova Command-Line Interface (CLI)](http://docs.phonegap.com/en/3.0.0/guide_cli_index.md.html#The%20Command-line%20Interface) in 3.0.0 or later is even easier:
 
 ```
-cordova plugins install https://github.com/phonegap-build/PushPlugin
+cordova plugins add https://github.com/phonegap-build/PushPlugin
 ```
 
 ## Plugin API
