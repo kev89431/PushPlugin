@@ -188,10 +188,12 @@
     }
 }
 
-- (void)setApplicationIconBadgeNumber:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options {
-	DLog(@"setApplicationIconBadgeNumber:%@\n withDict:%@", arguments, options);
+- (void)setApplicationIconBadgeNumber:(CDVInvokedUrlCommand*)command; {
+  DLog(@"setApplicationIconBadgeNumber:%@\n", command.arguments);
     
-	self.callbackId = [arguments pop];
+    self.callbackId = command.callbackId;
+    
+    NSMutableDictionary* options = [command.arguments objectAtIndex:0];
     
     int badge = [[options objectForKey:@"badge"] intValue] ?: 0;
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:badge];
