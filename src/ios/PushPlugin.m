@@ -183,6 +183,9 @@
         
         self.notificationMessage = nil;
     }
+    else{
+        NSLog(@"An error was encountered processing the notification\nNotificationMessage: %@\nCallback: %@", notificationMessage, self.callback);
+    }
 }
 
 - (void)setApplicationIconBadgeNumber:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options {
