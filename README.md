@@ -1,4 +1,4 @@
-f# Cordova Push Notifications Plugin for Android and iOS
+# Cordova Push Notifications Plugin for Android and iOS
 
 ---
 
