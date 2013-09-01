@@ -1,6 +1,17 @@
 # Cordova Push Notifications Plugin for Android and iOS
 
 ---
+## CHOOSE WISELY
+
+This is a fork of the official PushPlugin modified specifically to work with Cordova-CLI 3.0+, and may not be the one you want.
+
+- If you're using Cordova/PhoneGap 2.9 or earlier, you should head over to [official repo](https://github.com/phonegap-build/PushPlugin).
+- If you've migrated to Cordova 3.0 and discovered that PushPlugin is broken, you can and should install this branch like so ```cordova plugins add https://github.com/jdhiro/PushPlugin```
+- If you're looking for something fresh and new, I'm working on a more modern [rewrite of this plugin](https://github.com/jdhiro/CordovaPush). This is *not* ready for production.
+
+Everything below this line is old, and I can't vouch for any of it :)
+
+---
 
 ## DESCRIPTION
 
