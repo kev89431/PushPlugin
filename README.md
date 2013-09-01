@@ -1,6 +1,5 @@
 # Cordova Push Notifications Plugin for Android and iOS
 
----
 ## CHOOSE WISELY
 
 This is a fork of the official PushPlugin modified specifically to work with Cordova-CLI 3.0+, and may not be the one you want.
