@@ -10,8 +10,6 @@ This is a fork of the official PushPlugin modified specifically to work with Cor
 
 Everything below this line is old, and I can't vouch for any of it :)
 
----
-
 ## DESCRIPTION
 
 This plugin is for use with [Cordova](http://incubator.apache.org/cordova/), and allows your application to receive push notifications on both Android and iOS devices. The Android implementation uses [Google's GCM (Google Cloud Messaging) service](http://developer.android.com/guide/google/gcm/index.html), whereas the iOS version is based on [Apple APNS Notifications](http://developer.apple.com/library/mac/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html)
