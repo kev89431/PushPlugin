@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	id="io.hiro.cordovapush.CordovaPush"
+	id="io.hiro.cordovapush"
 	version="2.0.0">
 
 	<name>CordovaPush</name>
 
-	<description>
-		This is a plugin for handling push notifications on iOS and Android devices.
-	</description>
-
-	<license>MIT</license>
-
-	<asset src="www/CordovaPush.js" target="CordovaPush.js" />
-
-	<engines>
-		<engine name="cordova" version=">=3.0.0" />
-	</engines>	
+	<js-module src="www/CordovaPush.js" name="CordovaPush">
+        <merges target="navigator.cordovapush" />
+    </js-module>
 	
 	<!-- android -->
 	<platform name="android">
@@ -48,9 +40,9 @@
 			<service android:name="io.hiro.cordovapush.GcmIntentService" />
 		</config-file>
 
-		<source-file src="src/android/io/hiro/cordovapush/GcmBroadcastReceiver.java" target-dir="src/com/plugin/gcm/" />
-		<source-file src="src/android/io/hiro/cordovapush/GcmIntentService.java" target-dir="src/com/plugin/gcm/" />
-		<source-file src="src/android/io/hiro/cordovapush/CordovaPush.java" target-dir="src/com/plugin/gcm/" />
+		<source-file src="src/android/io/hiro/cordovapush/GcmBroadcastReceiver.java" target-dir="src/io/hiro/cordovapush/" />
+		<source-file src="src/android/io/hiro/cordovapush/GcmIntentService.java" target-dir="src/io/hiro/cordovapush/" />
+		<source-file src="src/android/io/hiro/cordovapush/CordovaPush.java" target-dir="src/io/hiro/cordovapush/" />
 		
 	</platform>
 
@@ -63,11 +55,11 @@
 			</feature>
 		</config-file>
 
-		<source-file src="src/ios/AppDelegate+notification.m" />
+		<header-file src="src/ios/PushPlugin.h" />
 		<source-file src="src/ios/PushPlugin.m" />
 
+		<source-file src="src/ios/AppDelegate+notification.m" />
 		<header-file src="src/ios/AppDelegate+notification.h" />
-		<header-file src="src/ios/PushPlugin.h" />
 
 	</platform>
 </plugin>
