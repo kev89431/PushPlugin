@@ -12,7 +12,7 @@
 
 	<license>MIT</license>
 
-	<asset src="www/PushNotification.js" target="PushNotification.js" />
+	<asset src="www/CordovaPush.js" target="CordovaPush.js" />
 
 	<engines>
 		<engine name="cordova" version=">=3.0.0" />
@@ -22,7 +22,7 @@
 	<platform name="android">
 
 		<config-file target="res/xml/config.xml" parent="/*">
-			<feature name="PushPlugin" >
+			<feature name="CordovaPush" >
 				<param name="android-package" value="io.hiro.cordovapush.CordovaPush"/>
 			</feature>
 		</config-file>
@@ -48,9 +48,9 @@
 			<service android:name="io.hiro.cordovapush.GcmIntentService" />
 		</config-file>
 
-		<source-file src="src/android/com/plugin/gcm/GcmBroadcastReceiver.java" target-dir="src/com/plugin/gcm/" />
-		<source-file src="src/android/com/plugin/gcm/GcmIntentService.java" target-dir="src/com/plugin/gcm/" />
-		<source-file src="src/android/com/plugin/gcm/CordovaPush.java" target-dir="src/com/plugin/gcm/" />
+		<source-file src="src/android/io/hiro/cordovapush/GcmBroadcastReceiver.java" target-dir="src/com/plugin/gcm/" />
+		<source-file src="src/android/io/hiro/cordovapush/GcmIntentService.java" target-dir="src/com/plugin/gcm/" />
+		<source-file src="src/android/io/hiro/cordovapush/CordovaPush.java" target-dir="src/com/plugin/gcm/" />
 		
 	</platform>
 
@@ -58,8 +58,8 @@
 	<platform name="ios">
 		
 		<config-file target="config.xml" parent="/*">
-			<feature name="PushPlugin">
-				<param name="ios-package" value="PushPlugin"/>
+			<feature name="CordovaPush">
+				<param name="ios-package" value="CordovaPush"/>
 			</feature>
 		</config-file>
 

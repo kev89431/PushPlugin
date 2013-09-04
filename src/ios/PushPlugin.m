@@ -25,7 +25,7 @@
 
 #import "PushPlugin.h"
 
-@implementation PushPlugin
+@implementation CordovaPush
 
 @synthesize notificationMessage;
 @synthesize isInline;
