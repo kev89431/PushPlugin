@@ -9,5 +9,10 @@ module.exports = {
     },
     setApplicationIconBadgeNumber: function(successCallback, errorCallback, badge){
         cordova.exec(successCallback, errorCallback, "CordovaPush", "setApplicationIconBadgeNumber", [{badge: badge}]);
+    },
+    onPushReceiveGCM: function(e){
+    	var evt = document.createEvent('CustomEvent');
+    	evt.initCustomEvent('pushEvent', true, true, e);
+    	window.dispatchEvent(evt);
     }
 };

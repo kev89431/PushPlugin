@@ -7,7 +7,7 @@
 	<name>CordovaPush</name>
 
 	<js-module src="www/CordovaPush.js" name="CordovaPush">
-        <merges target="navigator.cordovapush" />
+        <merges target="navigator.CordovaPush" />
     </js-module>
 	
 	<!-- android -->

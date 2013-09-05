@@ -35,6 +35,7 @@ public class CordovaPush extends CordovaPlugin {
 	private static final String TAG = "CordovaPush";
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private static final String PROPERTY_REG_ID = "registration_id";
+    private static final String DEFAULT_ECB = "window.navigator.CordovaPush.onPushReceiveGCM";
 
     private Context context;
     private GoogleCloudMessaging gcm;
@@ -71,7 +72,12 @@ public class CordovaPush extends CordovaPlugin {
 		if(action.equals("register")) {
 			try {
 	    		JSONObject jo = data.getJSONObject(0);
-	    		ecb = (String) jo.get("ecb");
+	    		if(jo.has("ecb")){
+	    			ecb = (String) jo.get("ecb");
+	    		}
+	    		else{
+	    			ecb = DEFAULT_ECB;
+	    		}
 	    		senderID = (String) jo.get("senderID");
 	    		if (checkPlayServices()) {
 		            registerInBackground(callbackContext);
