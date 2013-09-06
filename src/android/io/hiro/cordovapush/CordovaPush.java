@@ -35,7 +35,6 @@ public class CordovaPush extends CordovaPlugin {
 	private static final String TAG = "CordovaPush";
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private static final String PROPERTY_REG_ID = "registration_id";
-    private static final String DEFAULT_ECB = "window.navigator.CordovaPush.onPushReceiveGCM";
 
     private Context context;
     private GoogleCloudMessaging gcm;
@@ -48,36 +47,19 @@ public class CordovaPush extends CordovaPlugin {
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
     	cwv = webView;
     	super.initialize(cordova, webView);
-    	//this.cordova.getActivity().registerReceiver(mHandleMessageReceiver, new IntentFilter());
     	context = this.cordova.getActivity().getApplicationContext();
-
-    	/* TODO - automatic registration
-			Move id checks to the auto registration, they aren't needed for a foreceful registration
-				regid = getRegistrationId(context);
-
-	            if (regid.isEmpty()) {
-	                registerInBackground();
-	            }
-    	*/
     }
 
    	@Override
 	public boolean execute(String action, JSONArray data, CallbackContext callbackContext) {
-
 		Log.v(TAG, "Execute: action=" + action);
 		Log.v(TAG, "Execute: data=" + data.toString());
-
 		boolean result = false;
-           
+
 		if(action.equals("register")) {
 			try {
 	    		JSONObject jo = data.getJSONObject(0);
-	    		if(jo.has("ecb")){
-	    			ecb = (String) jo.get("ecb");
-	    		}
-	    		else{
-	    			ecb = DEFAULT_ECB;
-	    		}
+	    		ecb = (String) jo.get("ecb");
 	    		senderID = (String) jo.get("senderID");
 	    		if (checkPlayServices()) {
 		            registerInBackground(callbackContext);
@@ -91,8 +73,9 @@ public class CordovaPush extends CordovaPlugin {
 		} else if(action.equals("unregister")) {
 			/// Unregister is fairly useless, so let's worry about this one later. We should implement
 			// for back compat though.
-		}
+		} else if(action.equals("getid")) {
 
+		}
 		return result;
 	}
 
@@ -170,18 +153,6 @@ public class CordovaPush extends CordovaPlugin {
         sendExtras(extras);
     }
 
-/*
-	private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-        	Log.v(TAG, "Activity recieved notification: " + intent);
-            //String newMessage = intent.getExtras().getString(EXTRA_MESSAGE);
-            Bundle extras = intent.getExtras();
-            sendExtras(extras);
-        }
-    };
-    */
-
 	/**
 	 * Gets the current registration ID for application on GCM service.
 	 * If result is empty, the app needs to register.
@@ -229,8 +200,6 @@ public class CordovaPush extends CordovaPlugin {
 	 * @return Application's {@code SharedPreferences}.
 	 */
 	private SharedPreferences getGCMPreferences(Context context) {
-	    // This sample app persists the registration ID in shared preferences, but
-	    // how you store the regID in your app is up to you.
 	    return this.cordova.getActivity().getSharedPreferences(CordovaPush.class.getSimpleName(),
 	            Context.MODE_PRIVATE);
 	}
@@ -271,9 +240,7 @@ public class CordovaPush extends CordovaPlugin {
 			if (ecb != null && cwv != null) {
 				sendJavascript(convertBundleToJson(extras));
 			} else {
-				Log.v(TAG, "sendExtras: caching extras to send at a later time.");
-				// gCachedExtras = extras;
-				// C'mon, this should never happen, and if it does there isn't much that can be done about it.
+				Log.v(TAG, "sendExtras: Unable to send extras.");
 			}
 		}
 	}
@@ -281,35 +248,25 @@ public class CordovaPush extends CordovaPlugin {
 	/*
 	 * Serializes a bundle to JSON.
 	 */
-    private static JSONObject convertBundleToJson(Bundle extras)
-    {
-		try
-		{
+    private static JSONObject convertBundleToJson(Bundle extras) {
+		try {
 			JSONObject json;
 			json = new JSONObject().put("event", "message");
         
 			JSONObject jsondata = new JSONObject();
 			Iterator<String> it = extras.keySet().iterator();
-			while (it.hasNext())
-			{
+			while (it.hasNext()) {
 				String key = it.next();
 				Object value = extras.get(key);	
         	
 				// System data from Android
-				if (key.equals("from") || key.equals("collapse_key"))
-				{
+				if (key.equals("from") || key.equals("collapse_key")) {
 					json.put(key, value);
-				}
-				else if (key.equals("foreground"))
-				{
+				} else if (key.equals("foreground")) {
 					json.put(key, extras.getBoolean("foreground"));
-				}
-				else if (key.equals("coldstart"))
-				{
+				} else if (key.equals("coldstart")) {
 					json.put(key, extras.getBoolean("coldstart"));
-				}
-				else
-				{
+				} else {
 					if ( value instanceof String ) {
 					// Try to figure out if the value is another JSON object
 						
@@ -318,39 +275,27 @@ public class CordovaPush extends CordovaPlugin {
 							try {
 								JSONObject json2 = new JSONObject(strValue);
 								jsondata.put(key, json2);
-							}
-							catch (Exception e) {
+							} catch (Exception e) {
 								jsondata.put(key, value);
 							}
 							// Try to figure out if the value is another JSON array
-						}
-						else if (strValue.startsWith("["))
-						{
-							try
-							{
+						} else if (strValue.startsWith("[")) {
+							try {
 								JSONArray json2 = new JSONArray(strValue);
 								jsondata.put(key, json2);
-							}
-							catch (Exception e)
-							{
+							} catch (Exception e) {
 								jsondata.put(key, value);
 							}
-						}
-						else
-						{
+						} else {
 							jsondata.put(key, value);
 						}
 					}
 				}
 			} // while
 			json.put("payload", jsondata);
-        
 			Log.v(TAG, "extrasToJSON: " + json.toString());
-
 			return json;
-		}
-		catch( JSONException e)
-		{
+		} catch( JSONException e) {
 			Log.e(TAG, "extrasToJSON: JSON exception");
 		}        	
 		return null;      	
