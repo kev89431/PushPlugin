@@ -2,23 +2,25 @@ var exec = require('cordova/exec');
 
 module.exports = {
     register: function(successCallback, errorCallback, options){
+        var opt = options;
     	var platform = device.platform;
-    	if(!options)
-    		options = {};
-    	if(platform === 'android'){
-    		if(!options.ecb)
-    			options.ecb = "window.navigator.CordovaPush.onPushReceiveGCM";
-    	} else if(platform === 'ios') {
-    		if(!options.ecb)
-    			options.ecb = "window.navigator.CordovaPush.onPushReceiveAPN";
-    		if(!option.badge)
-    			options.badge = "true";
-    		if(!options.sound)
-    			options.sound = "true";
-    		if(!options.alert)
-    			options.alert = "true";
+    	if(!opt)
+    		opt = {};
+    	if(platform == 'Android'){
+    		if(!opt.ecb)
+    			opt.ecb = "window.navigator.CordovaPush.onPushReceiveGCM";
+    	} else if(platform == 'iOS') {
+    		if(!opt.ecb)
+    			opt.ecb = "window.navigator.CordovaPush.onPushReceiveAPN";
+    		if(!opt.badge)
+    			opt.badge = "true";
+    		if(!opt.sound)
+    			opt.sound = "true";
+    		if(!opt.alert)
+    			opt.alert = "true";
     	}
-        cordova.exec(successCallback, errorCallback, "CordovaPush", "register", [options]);
+        console.log("DUXTER EXEC: " + opt);
+        cordova.exec(successCallback, errorCallback, "CordovaPush", "register", [opt]);
     },
     unregister: function(successCallback, errorCallback){
         cordova.exec(successCallback, errorCallback, "CordovaPush", "unregister", []);

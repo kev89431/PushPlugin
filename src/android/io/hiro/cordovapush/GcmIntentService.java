@@ -41,6 +41,7 @@ public class GcmIntentService extends IntentService {
         String messageType = gcm.getMessageType(intent);
 
         if (!extras.isEmpty()) {  // has effect of unparcelling Bundle
+        	extras.putBoolean("pushmessage", true);
             // Filter messages based on message type.
             if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
                 Log.v(TAG, "Send error: " + extras.toString());

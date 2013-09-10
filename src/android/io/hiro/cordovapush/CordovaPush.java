@@ -35,6 +35,7 @@ public class CordovaPush extends CordovaPlugin {
 	private static final String TAG = "CordovaPush";
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private static final String PROPERTY_REG_ID = "registration_id";
+    private static final String DEFAULT_ECB = "window.navigator.CordovaPush.onPushReceiveGCM";
 
     private Context context;
     private GoogleCloudMessaging gcm;
@@ -45,9 +46,23 @@ public class CordovaPush extends CordovaPlugin {
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+    	Log.v(TAG, "CordovaPush is initializing...");
     	cwv = webView;
     	super.initialize(cordova, webView);
     	context = this.cordova.getActivity().getApplicationContext();
+
+    	// This is the entry point for notification taps when the app process is closed.  We'll query the
+    	// intent that opened the main activity and see if it has a push notification inside it.  This is
+    	// determined based on a flag that we set in the GcmIntentService.
+    	Intent actIntent = this.cordova.getActivity().getIntent();
+    	Bundle actBundle = actIntent.getExtras();
+    	if(actBundle.containsKey("pushmessage")) {
+    		Log.v(TAG, "Pending notifications found in launch intent: " + actBundle);
+    		sendExtras(actBundle);
+    	} else {
+    		Log.v(TAG, "No pending notifications found in launch intent: " + actBundle);
+    	}
+
     }
 
    	@Override
@@ -222,10 +237,10 @@ public class CordovaPush extends CordovaPlugin {
 	 * Sends a json object to the client as parameter to a method which is defined in gECB.
 	 */
 	public static void sendJavascript(JSONObject _json) {
-		String _d = "javascript:" + ecb + "(" + _json.toString() + ")";
+		String _d = "javascript:" + DEFAULT_ECB + "(" + _json.toString() + ")";
 		Log.v(TAG, "sendJavascript: " + _d);
 
-		if (ecb != null && cwv != null) {
+		if (cwv != null) {
 			cwv.sendJavascript(_d); 
 		}
 	}
@@ -236,12 +251,10 @@ public class CordovaPush extends CordovaPlugin {
 	 */
 	public static void sendExtras(Bundle extras)
 	{
-		if (extras != null) {
-			if (ecb != null && cwv != null) {
-				sendJavascript(convertBundleToJson(extras));
-			} else {
-				Log.v(TAG, "sendExtras: Unable to send extras.");
-			}
+		if (extras != null && cwv != null) {
+			sendJavascript(convertBundleToJson(extras));
+		} else {
+			Log.v(TAG, "sendExtras: Unable to send extras.");
 		}
 	}
 	
