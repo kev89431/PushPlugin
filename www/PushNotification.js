@@ -54,11 +54,11 @@ PushNotification.prototype.setApplicationIconBadgeNumber = function(successCallb
     cordova.exec(successCallback, errorCallback, "PushPlugin", "setApplicationIconBadgeNumber", [{badge: badge}]);
 };
 
+PushNotification.prototype.isEnable = function(successCallback, errorCallback) {
+    if (errorCallback == null) { errorCallback = function() {}}
+    cordova.exec(successCallback, errorCallback, "PushPlugin", "isEnable", []);
+};
+
 //-------------------------------------------------------------------
 
-if(!window.plugins) {
-    window.plugins = {};
-}
-if (!window.plugins.pushNotification) {
-    window.plugins.pushNotification = new PushNotification();
-}
+module.exports = new PushNotification();
